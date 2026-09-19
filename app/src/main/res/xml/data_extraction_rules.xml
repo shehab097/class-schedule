@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- TODO: Customize cloud backup rules as needed -->
+    </cloud-backup>
+    <device-transfer>
+        <!-- TODO: Customize device transfer rules as needed -->
+    </device-transfer>
+</data-extraction-rules>
