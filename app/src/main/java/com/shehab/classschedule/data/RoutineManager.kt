@@ -30,7 +30,7 @@ fun timeToMinutes(time: String): Int = try {
 }
 
 object RoutineManager {
-    private const val FILE_NAME = "routine_data.json"
+    private const val FILE_NAME = "routine.json"
 
     /** Bumped on every write so Compose screens can recompose off fresh data. */
     var version by mutableIntStateOf(0)

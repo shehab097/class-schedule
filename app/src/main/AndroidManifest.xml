@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ClassSchedule">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -19,18 +20,49 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ScheduleWidgetReceiver" android:exported="true">
+
+        <!-- Widget 1: next/current class only -->
+        <receiver
+            android:name=".widget.UpcomingWidgetReceiver"
+            android:label="Upcoming Class"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/schedule_widget_info" />
+                android:resource="@xml/upcoming_widget_info" />
         </receiver>
+
+        <!-- Widget 2: everything scheduled today -->
+        <receiver
+            android:name=".widget.DailyScheduleWidgetReceiver"
+            android:label="Today's Schedule"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/daily_widget_info" />
+        </receiver>
+
+        <!-- Widget 3: full weekly routine -->
+        <receiver
+            android:name=".widget.FullRoutineWidgetReceiver"
+            android:label="Weekly Routine"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/full_routine_widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>
