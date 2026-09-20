@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
@@ -85,10 +87,10 @@ fun ScheduleAppUI(
                 }
                 Row {
                     IconButton(onClick = onNavigateToTableView) {
-                        Icon(Icons.Default.Menu, contentDescription = "Table View", tint = TextPrimary)
+                        Icon(Icons.Default.DateRange, contentDescription = "Table View", tint = TextPrimary)
                     }
                     IconButton(onClick = onNavigateToJsonEditor) {
-                        Icon(Icons.Default.Settings, contentDescription = "JSON Editor", tint = TextPrimary)
+                        Icon(Icons.Default.Build, contentDescription = "JSON Editor", tint = TextPrimary)
                     }
                 }
             }

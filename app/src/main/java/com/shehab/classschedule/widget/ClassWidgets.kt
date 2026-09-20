@@ -26,6 +26,7 @@ import com.shehab.classschedule.ui.theme.WGreen
 import com.shehab.classschedule.ui.theme.WTextPrimary
 import com.shehab.classschedule.ui.theme.WTextSecondary
 
+
 @Composable
 fun WidgetContainer(content: @Composable () -> Unit) {
     GlanceBox(
@@ -33,7 +34,8 @@ fun WidgetContainer(content: @Composable () -> Unit) {
             .fillMaxSize()
             .glanceBackground(WBg)
             .padding(15.dp)
-            .glanceClickable(actionStartActivity<MainActivity>()),
+            .glanceClickable(actionStartActivity<MainActivity>()
+            ),
         contentAlignment = GlanceAlignment.TopStart
     ) {
         content()
@@ -58,132 +60,6 @@ fun WidgetHeader(title: String) {
     }
 }
 
-//@Composable
-//fun UpcomingWidgetUI(cls: ClassSession) {
-//    val accent = if (cls.isLab) WGreen else WBlue
-//
-//    GlanceColumn(modifier = GlanceModifier.fillMaxSize()) {
-//        GlanceText(
-//            text = "UPCOMING",
-//            style = GlanceTextStyle(
-//                color = WTextSecondary,
-//                fontSize = 10.sp,
-//                fontWeight = GlanceFontWeight.Bold
-//            ),
-//            maxLines = 1
-//        )
-//
-//        GlanceSpacer(modifier = GlanceModifier.height(2.dp))
-//
-//        // Display Course + Title together if course is present
-//        val displayTitle = if (cls.course.isNotBlank()) "${cls.course} - ${cls.title}" else cls.title
-//        GlanceText(
-//            text = displayTitle,
-//            style = GlanceTextStyle(
-//                color = WTextPrimary,
-//                fontSize = 15.sp,
-//                fontWeight = GlanceFontWeight.Bold
-//            ),
-//            maxLines = 2
-//        )
-//
-//        GlanceSpacer(modifier = GlanceModifier.height(6.dp))
-//
-//        GlanceRow(
-//            modifier = GlanceModifier.fillMaxWidth(),
-//            verticalAlignment = GlanceAlignment.Vertical.CenterVertically
-//        ) {
-//            GlanceText(
-//                text = "${cls.startTime} - ${cls.endTime}",
-//                style = GlanceTextStyle(
-//                    color = accent,
-//                    fontSize = 13.sp,
-//                    fontWeight = GlanceFontWeight.Medium
-//                ),
-//                maxLines = 1
-//            )
-//
-//            GlanceSpacer(modifier = GlanceModifier.defaultWeight())
-//
-//            GlanceText(
-//                text = "R${cls.room}",
-//                style = GlanceTextStyle(
-//                    color = WTextPrimary,
-//                    fontSize = 11.sp
-//                ),
-//                modifier = GlanceModifier
-//                    .glanceBackground(WSurface)
-//                    .padding(horizontal = 6.dp, vertical = 3.dp),
-//                maxLines = 1
-//            )
-//        }
-//    }
-//}
-
-//@Composable
-//fun UpcomingWidgetUI(cls: ClassSession) {
-//    val accent = if (cls.isLab) WGreen else WBlue
-//
-//    GlanceColumn(
-//        modifier = GlanceModifier.fillMaxSize(),
-//        verticalAlignment = GlanceAlignment.Top
-//    ) {
-//        // ১. হেডার লেবেল (Font: 8sp)
-//        GlanceText(
-//            text = "UPCOMING",
-//            style = GlanceTextStyle(
-//                color = WTextSecondary,
-//                fontSize = 8.sp,
-//                fontWeight = GlanceFontWeight.Bold
-//            ),
-//            maxLines = 1
-//        )
-//
-//        GlanceBox(modifier = GlanceModifier.height(2.dp)) {}
-//
-//        // ২. কোর্স এবং টাইটেল (Font: 11sp, Max 2 lines)
-//        val displayTitle = if (cls.course.isNotBlank()) "${cls.course} - ${cls.title}" else cls.title
-//        GlanceText(
-//            text = displayTitle,
-//            style = GlanceTextStyle(
-//                color = WTextPrimary,
-//                fontSize = 11.sp,
-//                fontWeight = GlanceFontWeight.Bold
-//            ),
-//            maxLines = 2
-//        )
-//
-//        // মাঝখানের জায়গা ফিলাপ করে টাইম ও রুমকে নিচে পুশ করার জন্য
-//        GlanceBox(modifier = GlanceModifier.defaultWeight()) {}
-//
-//        // ৩. টাইম (Font: 10sp)
-//        GlanceText(
-//            text = "${cls.startTime} - ${cls.endTime}",
-//            style = GlanceTextStyle(
-//                color = accent,
-//                fontSize = 10.sp,
-//                fontWeight = GlanceFontWeight.Bold
-//            ),
-//            maxLines = 1
-//        )
-//
-//        GlanceBox(modifier = GlanceModifier.height(2.dp)) {}
-//
-//        // ৪. রুম নম্বর ব্যাজ (Font: 9sp)
-//        GlanceText(
-//            text = "R${cls.room}",
-//            style = GlanceTextStyle(
-//                color = WTextPrimary,
-//                fontSize = 9.sp,
-//                fontWeight = GlanceFontWeight.Medium
-//            ),
-//            modifier = GlanceModifier
-//                .glanceBackground(WSurface)
-//                .padding(horizontal = 4.dp, vertical = 2.dp),
-//            maxLines = 1
-//        )
-//    }
-//}
 @Composable
 fun UpcomingWidgetUI(cls: ClassSession) {
     val accent = if (cls.isLab) WGreen else WBlue
