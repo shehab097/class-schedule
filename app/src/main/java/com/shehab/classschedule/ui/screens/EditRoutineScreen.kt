@@ -53,24 +53,21 @@ fun EditRoutineScreen(onNavigateBack: () -> Unit) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
+                actions = {
+                    IconButton(onClick = {
+                        classToEdit = null
+                        isEditing = true
+                    }) {
+                        Icon(Icons.Default.Add, contentDescription = "Add Class")
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = SurfaceColor,
                     titleContentColor = TextPrimary,
-                    navigationIconContentColor = TextPrimary
+                    navigationIconContentColor = TextPrimary,
+                    actionIconContentColor = TextPrimary
                 )
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    classToEdit = null
-                    isEditing = true
-                },
-                containerColor = PrimaryBlue,
-                contentColor = TextPrimary
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Class")
-            }
         }
     ) { paddingValues ->
         val sortedRoutine = remember(routine) { RoutineManager.sortedRoutine(routine) }
