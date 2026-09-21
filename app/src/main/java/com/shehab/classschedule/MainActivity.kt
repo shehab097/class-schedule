@@ -3,20 +3,24 @@ package com.shehab.classschedule
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge // 1. Import enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.shehab.classschedule.ui.screens.ScreenState
-import com.shehab.classschedule.ui.screens.ScheduleAppUI
 import com.shehab.classschedule.ui.screens.EditRoutineScreen
 import com.shehab.classschedule.ui.screens.JsonEditorScreen
+import com.shehab.classschedule.ui.screens.ScheduleAppUI
+import com.shehab.classschedule.ui.screens.ScreenState
 import com.shehab.classschedule.ui.screens.TableViewScreen
 import com.shehab.classschedule.ui.theme.ClassScheduleTheme
+import com.shehab.classschedule.data.RoutineManager
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge() // 2. Enable edge-to-edge drawing
         super.onCreate(savedInstanceState)
+        RoutineManager.updateWidgets(this)
         setContent {
             ClassScheduleTheme {
                 var currentScreen by rememberSaveable { mutableStateOf(ScreenState.HOME) }

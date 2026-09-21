@@ -18,6 +18,9 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.util.Calendar
+import androidx.work.*
+import com.shehab.classschedule.widget.WidgetUpdateWorker
+import java.util.concurrent.TimeUnit
 
 /** Safe "HH:mm" -> minutes. Never throws; bad values sort to the end. */
 fun timeToMinutes(time: String): Int = try {
@@ -30,7 +33,7 @@ fun timeToMinutes(time: String): Int = try {
 }
 
 object RoutineManager {
-    private const val FILE_NAME = "routine.json"
+    private const val FILE_NAME = "routine_data.json"
 
     /** Bumped on every write so Compose screens can recompose off fresh data. */
     var version by mutableIntStateOf(0)
@@ -54,13 +57,14 @@ object RoutineManager {
         }
     }
 
-    private fun updateWidgets(context: Context) {
+    fun updateWidgets(context: Context) {
         val appContext = context.applicationContext
         scope.launch {
             try {
                 UpcomingWidget().updateAll(appContext)
                 DailyScheduleWidget().updateAll(appContext)
                 FullRoutineWidget().updateAll(appContext)
+                scheduleNextUpdate(appContext)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -179,5 +183,52 @@ object RoutineManager {
         val idx = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1)
             .coerceIn(0, DAY_ORDER.lastIndex)
         return DAY_ORDER[idx]
+    }
+
+    fun scheduleNextUpdate(context: Context) {
+        val appContext = context.applicationContext
+        val workManager = WorkManager.getInstance(appContext)
+
+        // 1. Periodic safety fallback
+        val periodicRequest = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(30, TimeUnit.MINUTES)
+            .build()
+        workManager.enqueueUniquePeriodicWork(
+            "WidgetPeriodicUpdate",
+            ExistingPeriodicWorkPolicy.KEEP,
+            periodicRequest
+        )
+
+        // 2. Precise transition scheduling for today's classes
+        val todaysClasses = getTodaysClasses(appContext)
+        val now = Calendar.getInstance()
+        val nowMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
+
+        val transitions = todaysClasses.flatMap { listOf(timeToMinutes(it.startTime), timeToMinutes(it.endTime)) }
+            .filter { it > nowMinutes }
+            .sorted()
+
+        val nextTransitionMinutes = transitions.firstOrNull()
+
+        if (nextTransitionMinutes != null) {
+            val targetCal = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, nextTransitionMinutes / 60)
+                set(Calendar.MINUTE, nextTransitionMinutes % 60)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            val delayMs = targetCal.timeInMillis - System.currentTimeMillis()
+
+            if (delayMs > 0) {
+                val oneTimeRequest = OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
+                    .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
+                    .build()
+
+                workManager.enqueueUniqueWork(
+                    "WidgetTimeTransition",
+                    ExistingWorkPolicy.REPLACE,
+                    oneTimeRequest
+                )
+            }
+        }
     }
 }

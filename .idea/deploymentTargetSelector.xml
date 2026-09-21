@@ -3,11 +3,11 @@
   <component name="deploymentTargetSelector">
     <selectionStates>
       <SelectionState runConfigName="app">
-        <option name="selectionMode" value="DIALOG" />
-        <DropdownSelection timestamp="2026-09-19T23:09:11.817673308Z">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2026-09-21T01:14:37.793588031Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="Wireless" identifier="serviceName=adb-f1d00595-B1Xg9r" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/home/shehab/.android/avd/Pixel_10.avd" />
             </handle>
           </Target>
         </DropdownSelection>
