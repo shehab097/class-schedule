@@ -81,7 +81,7 @@ fun UpcomingWidgetUI(cls: ClassSession) {
                     maxLines = 1
                 )
 
-                GlanceBox(modifier = GlanceModifier.height(5.dp)) {}
+                GlanceSpacer(modifier = GlanceModifier.height(4.dp)) // Added spacing
 
                 // 2. Title (Big font, multi-line)
                 GlanceText(
@@ -93,7 +93,7 @@ fun UpcomingWidgetUI(cls: ClassSession) {
                     )
                 )
 
-                GlanceSpacer(modifier = GlanceModifier.height(10.dp))
+                GlanceSpacer(modifier = GlanceModifier.height(6.dp)) // Added/Adjusted spacing
 
                 // 3. Bottom Row: Time (Left) & Room No (Right)
                 GlanceRow(
@@ -145,9 +145,9 @@ fun CurrentUpcomingWidgetUI(current: ClassSession?, next: ClassSession?) {
         if (current != null && next != null) {
             item {
                 GlanceColumn {
-                    GlanceSpacer(modifier = GlanceModifier.height(8.dp))
+                    GlanceSpacer(modifier = GlanceModifier.height(12.dp))
                     GlanceSpacer(modifier = GlanceModifier.height(1.dp).fillMaxWidth().glanceBackground(WSurface))
-                    GlanceSpacer(modifier = GlanceModifier.height(8.dp))
+                    GlanceSpacer(modifier = GlanceModifier.height(12.dp))
                 }
             }
         }
@@ -180,11 +180,17 @@ private fun ClassSectionUI(cls: ClassSession, label: String) {
                 maxLines = 1
             )
         }
+        GlanceSpacer(modifier = GlanceModifier.height(2.dp))
         GlanceText(
             text = cls.title,
-            style = GlanceTextStyle(color = WTextPrimary, fontSize = 12.sp, fontWeight = GlanceFontWeight.Bold),
+            style = GlanceTextStyle(
+                color = WTextPrimary,
+                fontSize = 12.sp,
+                fontWeight = GlanceFontWeight.Bold
+            ),
             maxLines = 2
         )
+        GlanceSpacer(modifier = GlanceModifier.height(2.dp))
         GlanceRow(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = GlanceAlignment.CenterVertically) {
             GlanceText(
                 text = "${cls.startTime} - ${cls.endTime}",
@@ -193,7 +199,7 @@ private fun ClassSectionUI(cls: ClassSession, label: String) {
             )
             GlanceSpacer(modifier = GlanceModifier.defaultWeight())
             GlanceText(
-                text = "R${cls.room}",
+                text = cls.room,
                 style = GlanceTextStyle(color = WTextPrimary, fontSize = 9.sp),
                 modifier = GlanceModifier.glanceBackground(WSurface).cornerRadius(2.dp).padding(horizontal = 3.dp)
             )
@@ -244,7 +250,7 @@ fun DailyItemUI(cls: ClassSession) {
         GlanceSpacer(modifier = GlanceModifier.width(6.dp))
 
         GlanceText(
-            text = "${cls.room}",
+            text = cls.room,
             style = GlanceTextStyle(
                 color = accent,
                 fontSize = 11.sp,
@@ -362,7 +368,7 @@ fun FullItemUI(cls: ClassSession) {
 
         // Room Column
         GlanceText(
-            text = "${cls.room}",
+            text = cls.room,
             style = GlanceTextStyle(
                 color = WTextSecondary,
                 fontSize = 9.sp,
