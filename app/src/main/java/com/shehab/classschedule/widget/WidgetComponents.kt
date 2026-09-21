@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UpcomingWidget : GlanceAppWidget() {
-    override val sizeMode = SizeMode.Exact
+    override val sizeMode = SizeMode.Single
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val nextClass = withContext(Dispatchers.IO) {
@@ -35,7 +35,7 @@ class UpcomingWidget : GlanceAppWidget() {
 }
 
 class DailyScheduleWidget : GlanceAppWidget() {
-    override val sizeMode = SizeMode.Exact
+    override val sizeMode = SizeMode.Single
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val classes = withContext(Dispatchers.IO) {
@@ -61,7 +61,7 @@ class DailyScheduleWidget : GlanceAppWidget() {
 }
 
 class FullRoutineWidget : GlanceAppWidget() {
-    override val sizeMode = SizeMode.Exact
+    override val sizeMode = SizeMode.Single
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val routine = withContext(Dispatchers.IO) {
@@ -82,6 +82,21 @@ class FullRoutineWidget : GlanceAppWidget() {
                 } else {
                     EmptyWidgetUI("No routine saved yet.")
                 }
+            }
+        }
+    }
+}
+
+class CurrentUpcomingWidget : GlanceAppWidget() {
+    override val sizeMode = SizeMode.Single
+
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        val pair = withContext(Dispatchers.IO) {
+            runCatching { RoutineManager.getCurrentAndNextClasses(context) }.getOrDefault(Pair(null, null))
+        }
+        provideContent {
+            WidgetContainer {
+                CurrentUpcomingWidgetUI(pair.first, pair.second)
             }
         }
     }

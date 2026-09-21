@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.ClassSchedule" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.ClassSchedule" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Sets the dark splash / cold startup background color -->
+        <item name="android:windowBackground">#121212</item>
+
+        <!-- Keeps status bar dark during app launch -->
+        <item name="android:statusBarColor">#121212</item>
+    </style>
+
 </resources>

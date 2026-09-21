@@ -14,3 +14,8 @@ class DailyScheduleWidgetReceiver : GlanceAppWidgetReceiver() {
 class FullRoutineWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = FullRoutineWidget()
 }
+
+class CurrentUpcomingWidgetReceiver : GlanceAppWidgetReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = CurrentUpcomingWidget()
+}
+

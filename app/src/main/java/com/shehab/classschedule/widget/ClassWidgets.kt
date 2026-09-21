@@ -27,6 +27,9 @@ import com.shehab.classschedule.ui.theme.WTextPrimary
 import com.shehab.classschedule.ui.theme.WTextSecondary
 
 
+import androidx.glance.appwidget.lazy.LazyColumn as GlanceLazyColumn
+import androidx.glance.appwidget.lazy.items as glanceItems
+
 @Composable
 fun WidgetContainer(content: @Composable () -> Unit) {
     GlanceBox(
@@ -64,69 +67,135 @@ fun WidgetHeader(title: String) {
 fun UpcomingWidgetUI(cls: ClassSession) {
     val accent = if (cls.isLab) WGreen else WBlue
 
-    GlanceColumn(
-        modifier = GlanceModifier.fillMaxSize(),
-        verticalAlignment = GlanceAlignment.Top
-    ) {
-        // 1. Course Code (Top label)
-        GlanceText(
-            text = cls.course.ifBlank { "UPCOMING" },
-            style = GlanceTextStyle(
-                color = WBlue,
-                fontSize = 10.sp,
-                fontWeight = GlanceFontWeight.Bold
-            ),
-            maxLines = 1
-        )
+    GlanceLazyColumn(modifier = GlanceModifier.fillMaxSize()) {
+        item {
+            GlanceColumn(modifier = GlanceModifier.fillMaxWidth()) {
+                // 1. Course Code (Top label)
+                GlanceText(
+                    text = cls.course.ifBlank { "UPCOMING" },
+                    style = GlanceTextStyle(
+                        color = WBlue,
+                        fontSize = 10.sp,
+                        fontWeight = GlanceFontWeight.Bold
+                    ),
+                    maxLines = 1
+                )
 
-        GlanceBox(modifier = GlanceModifier.height(5.dp)) {}
+                GlanceBox(modifier = GlanceModifier.height(5.dp)) {}
 
-        // 2. Title (Big font, multi-line)
-        GlanceText(
-            text = cls.title,
-            style = GlanceTextStyle(
-                color = WTextPrimary,
-                fontSize = 14.sp,
-                fontWeight = GlanceFontWeight.Bold
-            ),
-            maxLines = 3
-        )
+                // 2. Title (Big font, multi-line)
+                GlanceText(
+                    text = cls.title,
+                    style = GlanceTextStyle(
+                        color = WTextPrimary,
+                        fontSize = 14.sp,
+                        fontWeight = GlanceFontWeight.Bold
+                    )
+                )
 
-        // Pushes the bottom row to the end of the widget
-        GlanceBox(modifier = GlanceModifier.defaultWeight()) {}
+                GlanceSpacer(modifier = GlanceModifier.height(10.dp))
 
-        // 3. Bottom Row: Time (Left) & Room No (Right)
-        GlanceRow(
-            modifier = GlanceModifier.fillMaxWidth(),
-            verticalAlignment = GlanceAlignment.Vertical.CenterVertically
-        ) {
-            // Time (Left aligned)
+                // 3. Bottom Row: Time (Left) & Room No (Right)
+                GlanceRow(
+                    modifier = GlanceModifier.fillMaxWidth(),
+                    verticalAlignment = GlanceAlignment.Vertical.CenterVertically
+                ) {
+                    // Time (Left aligned)
+                    GlanceText(
+                        text = "${cls.startTime} - ${cls.endTime}",
+                        style = GlanceTextStyle(
+                            color = accent,
+                            fontSize = 10.sp,
+                            fontWeight = GlanceFontWeight.Bold
+                        ),
+                        maxLines = 1
+                    )
+
+                    // Spacer to push Room to the right end
+                    GlanceSpacer(modifier = GlanceModifier.defaultWeight())
+
+                    // Room No (Right aligned)
+                    GlanceText(
+                        text = cls.room,
+                        style = GlanceTextStyle(
+                            color = WTextPrimary,
+                            fontSize = 10.sp,
+                            fontWeight = GlanceFontWeight.Medium
+                        ),
+                        modifier = GlanceModifier
+                            .glanceBackground(WSurface)
+                            .cornerRadius(4.dp)
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        maxLines = 1
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CurrentUpcomingWidgetUI(current: ClassSession?, next: ClassSession?) {
+    GlanceLazyColumn(modifier = GlanceModifier.fillMaxSize()) {
+        if (current != null) {
+            item {
+                ClassSectionUI(current, "CURRENT")
+            }
+        }
+        if (current != null && next != null) {
+            item {
+                GlanceColumn {
+                    GlanceSpacer(modifier = GlanceModifier.height(8.dp))
+                    GlanceSpacer(modifier = GlanceModifier.height(1.dp).fillMaxWidth().glanceBackground(WSurface))
+                    GlanceSpacer(modifier = GlanceModifier.height(8.dp))
+                }
+            }
+        }
+        if (next != null) {
+            item {
+                ClassSectionUI(next, "NEXT")
+            }
+        }
+        if (current == null && next == null) {
+            item {
+                EmptyWidgetUI("No classes scheduled! 🎉")
+            }
+        }
+    }
+}
+
+@Composable
+private fun ClassSectionUI(cls: ClassSession, label: String) {
+    val accent = if (cls.isLab) WGreen else WBlue
+    GlanceColumn(modifier = GlanceModifier.fillMaxWidth()) {
+        GlanceRow(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = GlanceAlignment.CenterVertically) {
             GlanceText(
-                text = "${cls.startTime} - ${cls.endTime}",
-                style = GlanceTextStyle(
-                    color = accent,
-                    fontSize = 10.sp,
-                    fontWeight = GlanceFontWeight.Bold
-                ),
+                text = label,
+                style = GlanceTextStyle(color = accent, fontSize = 9.sp, fontWeight = GlanceFontWeight.Bold)
+            )
+            GlanceSpacer(modifier = GlanceModifier.width(4.dp))
+            GlanceText(
+                text = cls.course,
+                style = GlanceTextStyle(color = WTextSecondary, fontSize = 9.sp),
                 maxLines = 1
             )
-
-            // Spacer to push Room to the right end
-            GlanceBox(modifier = GlanceModifier.defaultWeight()) {}
-
-            // Room No (Right aligned)
+        }
+        GlanceText(
+            text = cls.title,
+            style = GlanceTextStyle(color = WTextPrimary, fontSize = 12.sp, fontWeight = GlanceFontWeight.Bold),
+            maxLines = 2
+        )
+        GlanceRow(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = GlanceAlignment.CenterVertically) {
             GlanceText(
-                text = cls.room,
-                style = GlanceTextStyle(
-                    color = WTextPrimary,
-                    fontSize = 10.sp,
-                    fontWeight = GlanceFontWeight.Medium
-                ),
-                modifier = GlanceModifier
-                    .glanceBackground(WSurface)
-                    .cornerRadius(4.dp)
-                    .padding(horizontal = 4.dp, vertical = 2.dp),
+                text = "${cls.startTime} - ${cls.endTime}",
+                style = GlanceTextStyle(color = WTextSecondary, fontSize = 9.sp),
                 maxLines = 1
+            )
+            GlanceSpacer(modifier = GlanceModifier.defaultWeight())
+            GlanceText(
+                text = "R${cls.room}",
+                style = GlanceTextStyle(color = WTextPrimary, fontSize = 9.sp),
+                modifier = GlanceModifier.glanceBackground(WSurface).cornerRadius(2.dp).padding(horizontal = 3.dp)
             )
         }
     }

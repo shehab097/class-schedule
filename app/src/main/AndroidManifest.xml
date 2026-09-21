@@ -63,6 +63,19 @@
                 android:resource="@xml/full_routine_widget_info" />
         </receiver>
 
+        <!-- Widget 4: current & upcoming class -->
+        <receiver
+            android:name=".widget.CurrentUpcomingWidgetReceiver"
+            android:label="Current &amp; Upcoming"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/current_upcoming_widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>
