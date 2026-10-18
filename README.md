@@ -1,26 +1,36 @@
 # 📚 Class Schedule
 
-**Class Schedule** is a feature-rich Android application built to manage daily class sessions, schedules, and academic routines efficiently[cite: 2].
+[![Kotlin](https://img.shields.io/badge/Language-Kotlin-orange.svg)](https://kotlinlang.org)
+[![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 🛠️ Project Structure & Architecture
+**Class Schedule** is a modern Android application whose **core purpose is displaying interactive home screen widgets** to keep your daily routines, current sessions, and upcoming classes visible without needing to open the app. 
 
-The application is structured into modular packages within the `app` module[cite: 2]:
+---
 
-* **Data Management**: 
-  * Managed by `RoutineManager.kt` to handle routine logic and persistence[cite: 2].
-  * Utilizes local assets including `routine.json` for schedule data[cite: 2].
-* **Models**: 
-  * Contains core data structures such as `ClassSession.kt`[cite: 2].
-* **UI Screens & Components**: 
-  * Features interactive screens like `MainScreen.kt`, `TableViewScreen.kt`, `EditRoutineScreen.kt`, and `JsonEditorScreen.kt`[cite: 2].
-  * Includes reusable components such as `ClassCard.kt` and `TableComponents.kt`[cite: 2].
-* **Theme & Styling**: 
-  * Implements custom Material design themes, colors, typography, and widget colors via `Color.kt`, `Theme.kt`, `Type.kt`, and `WidgetColors.kt`[cite: 2].
-* **Widgets & Workers**: 
-  * Provides home screen widgets and updates through `ClassWidgets.kt`, `WidgetComponents.kt`, `WidgetReceivers.kt`, and `WidgetUpdateWorker.kt`[cite: 2].
+## ✨ Key Features
 
-## 🚀 Tech Stack & Build System
+- **🎯 Widget-First Experience**: Designed to power versatile home screen widgets (`ClassWidgets.kt`) including current/upcoming class trackers, daily views, and full routine displays.
+- **🔄 Automated Background Updates**: Utilizes a dedicated background worker (`WidgetUpdateWorker.kt`) and receivers (`WidgetReceivers.kt`) to keep your widgets updated seamlessly.
+- **📋 Routine Management & Editors**: View and modify your schedule data easily via dedicated screens like `TableViewScreen.kt`, `EditRoutineScreen.kt`, and `JsonEditorScreen.kt`.
+- **🎨 Modern Android Architecture**: Built natively with Jetpack Compose, Material Design, and custom styling components (`ClassCard.kt`, `TableComponents.kt`).
 
-* **Language**: Kotlin[cite: 2]
-* **Platform**: Android[cite: 2]
-* **Build Configuration**: Gradle build system utilizing `build.gradle.kts`, `libs.versions.toml`, and `settings.gradle.kts`[cite: 2]
+---
+
+## 🛠️ Tech Stack & Project Structure
+
+- **Language**: [Kotlin](https://kotlinlang.org/)[cite: 1, 2]
+- **Toolkit**: Jetpack Compose (UI)
+- **Data & Storage**: Local JSON-based routine management (`routine.json`, `RoutineManager.kt`)
+- **Background Processing**: Android WorkManager for widget updates
+
+### Project Layout
+```text
+class-schedule-main/
+├── app/src/main/java/com/shehab/classschedule/
+│   ├── data/          # Routine management and data parsing (`RoutineManager.kt`)[cite: 1, 2]
+│   ├── model/         # Data classes (`ClassSession.kt`)[cite: 1, 2]
+│   ├── ui/            # Compose screens and UI components[cite: 1, 2]
+│   ├── theme/         # Material 3 colors, typography, and widget color schemes[cite: 1, 2]
+│   └── widget/        # App widget providers, components, receivers, and workers[cite: 1, 2]
+└── app/src/main/res/  # Layouts, vector assets, and widget info XML files[cite: 1, 2]
