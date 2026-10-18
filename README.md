@@ -1,4 +1,4 @@
-# 📚 Class Schedule (جداولي)
+# 📚 Class Schedule 
 
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-orange.svg)](https://kotlinlang.org)
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com)
